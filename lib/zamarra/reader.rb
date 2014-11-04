@@ -8,8 +8,8 @@
  ##
 
 require 'rexml/document'
-require './zamarra/model/term'
-require './zamarra/model/zthes_document'
+require File.expand_path('../model/term', __FILE__)
+require File.expand_path('../model/zthes_document', __FILE__)
 
 include Zamarra
 
