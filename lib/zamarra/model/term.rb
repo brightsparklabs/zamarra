@@ -19,7 +19,7 @@ module Zamarra
             # INSTANCE VARIABLES
             # ------------------------------------------------------------------
 
-            attr_reader :id, :children_ids, :children, :name
+            attr_reader :id, :children_ids, :children, :name, :synonyms
 
             # ------------------------------------------------------------------
             # PUBLIC METHODS
@@ -36,6 +36,7 @@ module Zamarra
                 @name = name
                 @children_ids = []
                 @children = []
+                @synonyms = []
             end
 
             ##
@@ -56,6 +57,16 @@ module Zamarra
              ##
             def add_child(child)
                 children << child
+            end
+
+            ##
+             # Adds the supplied synonym to this Term
+             #
+             # @param synonym [Term]
+             #          synonym to add
+             ##
+            def add_synonym(synonym)
+                synonyms << synonym
             end
         end
     end

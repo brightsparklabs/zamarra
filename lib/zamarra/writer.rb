@@ -41,7 +41,9 @@ module Zamarra
              ##
             def self.print_name(term, indent=0)
                 indentation = "".ljust(indent, " ")
-                puts "#{indentation}- #{term.name}"
+                output = "#{indentation}- #{term.name}"
+                output += " (#{term.synonyms.sort.join ', '})" unless term.synonyms.empty?
+                puts output
                 term.children.each { |child| child.nil? ? "== ERROR: UNKNOWN CHILD ==" : print_name(child, indent + 2) }
             end
     end

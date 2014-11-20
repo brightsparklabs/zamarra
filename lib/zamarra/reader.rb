@@ -20,6 +20,10 @@ module Zamarra
      ##
     class Reader
 
+        # ----------------------------------------------------------------------
+        # PUBLIC METHODS
+        # ----------------------------------------------------------------------
+
         ##
          # Reads a Zthes XML file
          #
@@ -36,10 +40,23 @@ module Zamarra
             narrower_terms = []
 
             document.elements.each('Zthes/term') do |t|
-                unless t.elements['termType'].text == "PT"
-                    # only process 'Preferred Terms'
-                    next
+
+                type = t.elements['termType'].text
+
+                if type == "ND"
+                    synonym = t.elements['termName'].text
+                    relation = t.elements.to_a('relation').first
+                    term_id = relation.elements['termId'].text
+                    term = terms[term_id]
+                    if term.nil?
+                        puts "ERROR: Synonym '#{synonym}' references unknown term_id  #{term_id}"
+                    else
+                        term.add_synonym synonym
+                    end
                 end
+
+                # only process 'Preferred Terms'
+                next unless type == "PT"
 
                 # create object
                 term_id = t.elements['termId'].text
@@ -49,9 +66,9 @@ module Zamarra
                 # store all children ids
                 t.elements.each('relation') do |relation|
                     if relation.elements['relationType'].text == "NT"
-                        childId = relation.elements['termId'].text
-                        term.add_child_id childId
-                        narrower_terms << childId
+                        child_id = relation.elements['termId'].text
+                        term.add_child_id child_id
+                        narrower_terms << child_id
                     end
                 end
 
