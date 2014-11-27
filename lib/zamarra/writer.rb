@@ -24,8 +24,7 @@ module Zamarra
          ##
         def self.write_preferred_terms(document)
             top_level_terms = document.top_level_terms
-            top_level_terms.each { |term_id, term| print_name term }
-
+            top_level_terms.sort_by {|term_id, term| term.name} .each { |term_id, term| print_name term }
         end
 
         private
@@ -44,7 +43,7 @@ module Zamarra
                 output = "#{indentation}- #{term.name}"
                 output += " (#{term.synonyms.sort.join ', '})" unless term.synonyms.empty?
                 puts output
-                term.children.each { |child| child.nil? ? "== ERROR: UNKNOWN CHILD ==" : print_name(child, indent + 2) }
+                term.children.sort_by {|child| child.name} .each { |child| child.nil? ? "== ERROR: UNKNOWN CHILD ==" : print_name(child, indent + 2) }
             end
     end
 end
