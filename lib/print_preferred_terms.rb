@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 ##
  # Prints the preferred terms hierarchy to stdout
  # _____________________________________________________________________________
